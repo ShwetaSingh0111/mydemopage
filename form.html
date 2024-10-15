@@ -73,7 +73,7 @@
           <label for="msg">What is the land speed velocity of an unladen swallow?</label> <input id="swallow" name="unladen_swallow"></input>
         </div>
         <div class="button">
-          <button type="button" onclick="submitForm()">Send your message</button>
+          <button type="button" onclick=submitForm()>Send your message</button>
         </div>
     </form>
 
@@ -108,7 +108,7 @@ submitForm = async function() {
   const userId = queryParams.get('userId');
   const conversationId = queryParams.get('convId');
   const botId = queryParams.get('botId');
-
+alert("Hi Shweta");
   // Get data from form
   const name = document.querySelector('input[name="user_name"]').value;
   const color = document.querySelector('input[name="favorite_color"]').value;
