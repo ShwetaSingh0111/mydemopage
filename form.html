@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Test External Web View</title>
+    <script src="js/index.js" type="text/javascript"></script>
+    <style>
+      form {
+        /* Just to center the form on the page */
+        margin: 0 auto;
+        width: 600px;
+        /* To see the outline of the form */
+        padding: 1em;
+        border: 1px solid #CCC;
+        border-radius: 1em;
+      }
+
+      form div + div {
+        margin-top: 1em;
+      }
+
+      label {
+        /* To make sure that all labels have the same size and are properly aligned */
+        display: inline-block;
+        width: 190px;
+        text-align: right;
+      }
+
+      input, textarea {
+        /* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+        font: 1em sans-serif;
+        /* To give the same size to all text fields */
+        width: 400px;
+        box-sizing: border-box; /* To harmonize the look & feel of text field border */
+        border: 1px solid #999;
+      }
+
+      input:focus, textarea:focus {
+        /* To give a little highlight on active elements */
+        border-color: #000;
+      }
+
+      textarea {
+        /* To properly align multiline text fields with their labels */
+        vertical-align: top;
+        /* To give enough room to type some text */
+        height: 5em;
+      }
+
+      .button {
+        /* To position the buttons to the same position of the text fields */
+        padding-left: 90px;
+        /* same size as the label elements */
+      }
+
+      button {
+        /* This extra margin represent roughly the same space as the space between the labels and their text fields */
+        margin-left: .5em;
+      }
+    </style>
+</head>
+
 <body>
+    <form action="/my-handling-form-page" method="post">
+        <div>
+          <label for="name">What is your name?</label> <input type="text" id="name" name="user_name">
+        </div>
+        <div>
+          <label for="mail">What is your favorite color?</label> <input type="text" id="color" name="favorite_color">
+        </div>
+        <div>
+          <label for="msg">What is the land speed velocity of an unladen swallow?</label> <input id="swallow" name="unladen_swallow"></input>
+        </div>
+        <div class="button">
+          <button type="button" onclick="submitForm()">Send your message</button>
+        </div>
+    </form>
 
-<h2>HTML Forms</h2>
-
-<form>
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit" onclick=submitForm()>
-</form> 
-
-<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
 <script>
-  // Post data to Web View API
+    // Post data to Web View API
 async function postData(url = '', auth, data = {}) {
  const response = await fetch(url, {
    method: 'POST',
@@ -25,41 +89,40 @@ async function postData(url = '', auth, data = {}) {
    },
    body: JSON.stringify(data),
  });
-  alert("called postData method");
  return await response.json();
 };
     // Post data when form is submitted
 submitForm = async function() {
  // Get data from query string
- 
  const queryParams = new URLSearchParams(document.location.search);
  const userId = queryParams.get('userId');
  const conversationId = queryParams.get('convId');
  const botId = queryParams.get('botId');
 
  // Get data from form
- const fname = document.querySelector('input[name="fname"]').value;
- const lname = document.querySelector('input[name="lname"]').value;
- //const swallow = document.querySelector('input[name="unladen_swallow"]').value;
-alert("Hi "+fname+" "+lname);
+ const name = document.querySelector('input[name="user_name"]').value;
+ const color = document.querySelector('input[name="favorite_color"]').value;
+ const swallow = document.querySelector('input[name="unladen_swallow"]').value;
+
  // use correct domain for your region
  const domain = 'https://va.bc-intg.liveperson.net/thirdparty-services-0.1/webview';
   // encode auth string
  const authString = `${conversationId} || ${botId}`;
  const auth = await sha256(authString);
-  console.log("authString ----"+authString);
-  console.log("authSHA ----"+auth);
+
  const res = await postData(domain, auth, {
    botId,
    conversationId,
    userId,
    message: "request successful", // optional
    contextVariables: [
-     {"name": "fname", "value": fname},
-     {"name": "lname", "value": lname}
+     {"name": "name", "value": name},
+     {"name": "color", "value": color},
+     {"name": "swallow", "value": swallow}
    ],
  });
 }
 </script>
 </body>
+
 </html>
