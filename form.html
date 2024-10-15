@@ -14,10 +14,23 @@
 
 <p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
 <script>
+  // Post data to Web View API
+async function postData(url = '', auth, data = {}) {
+ const response = await fetch(url, {
+   method: 'POST',
+   mode: 'cors',
+   headers: {
+     'Authorization': auth,
+     'Content-Type': 'application/json',
+   },
+   body: JSON.stringify(data),
+ });
+ return await response.json();
+};
     // Post data when form is submitted
 submitForm = async function() {
  // Get data from query string
- alert("Hi shweta");
+ 
  const queryParams = new URLSearchParams(document.location.search);
  const userId = queryParams.get('userId');
  const conversationId = queryParams.get('convId');
@@ -27,7 +40,7 @@ submitForm = async function() {
  const fname = document.querySelector('input[name="fname"]').value;
  const lname = document.querySelector('input[name="lname"]').value;
  //const swallow = document.querySelector('input[name="unladen_swallow"]').value;
-
+alert("Hi "+fname+" "+lname);
  // use correct domain for your region
  const domain = 'https://va.bc-intg.liveperson.net/thirdparty-services-0.1/webview';
   // encode auth string
