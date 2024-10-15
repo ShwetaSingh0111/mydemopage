@@ -34,7 +34,7 @@ submitForm = async function() {
   const swallow = document.querySelector('input[name="unladen_swallow"]').value;
 
   // use correct domain for your region
-  const domain = 'https://va.bc-intg.liveperson.net/thirdparty-services-0.1/webview';
+  const domain = 'https://lo.bc-intg.liveperson.net/thirdparty-services-0.1/webview';
   
   // encode auth string
   const authString = `${conversationId} || ${botId}`;
