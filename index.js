@@ -9,6 +9,7 @@ async function postData(url = '', auth, data = {}) {
     },
     body: JSON.stringify(data),
   });
+  console.log("calling postData");
   return await response.json();
 };
 
@@ -39,7 +40,8 @@ submitForm = async function() {
   // encode auth string
   const authString = `${conversationId} || ${botId}`;
   const auth = await sha256(authString);
-
+console.log("authString-----------"+authString);
+  console.log("auth-----------"+auth);
   const res = await postData(domain, auth, {
     botId,
     conversationId,
