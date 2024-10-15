@@ -4,15 +4,47 @@
 
 <h2>HTML Forms</h2>
 
-<form action="/action_page.php">
+<form>
   <label for="fname">First name:</label><br>
   <input type="text" id="fname" name="fname" value="John"><br>
   <label for="lname">Last name:</label><br>
   <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" onclick=submitForm()>
 </form> 
 
 <p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+<script>
+    // Post data when form is submitted
+submitForm = async function() {
+ // Get data from query string
+ alert("Hi shweta");
+ const queryParams = new URLSearchParams(document.location.search);
+ const userId = queryParams.get('userId');
+ const conversationId = queryParams.get('convId');
+ const botId = queryParams.get('botId');
 
+ // Get data from form
+ const fname = document.querySelector('input[name="fname"]').value;
+ const lname = document.querySelector('input[name="lname"]').value;
+ //const swallow = document.querySelector('input[name="unladen_swallow"]').value;
+
+ // use correct domain for your region
+ const domain = 'https://va.bc-intg.liveperson.net/thirdparty-services-0.1/webview';
+  // encode auth string
+ const authString = `${conversationId} || ${botId}`;
+ const auth = await sha256(authString);
+
+ const res = await postData(domain, auth, {
+   botId,
+   conversationId,
+   userId,
+   message: "request successful", // optional
+   contextVariables: [
+     {"name": "fname", "value": fname},
+     {"name": "lname", "value": lname}
+   ],
+ });
+}
+</script>
 </body>
 </html>
