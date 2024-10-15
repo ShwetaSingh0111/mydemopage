@@ -36,7 +36,7 @@ submitForm = async function() {
 
   // use correct domain for your region
   const domain = 'https://lo.bc-intg.liveperson.net/thirdparty-services-0.1/webview';
-  
+  alert("Hi "+name);
   // encode auth string
   const authString = `${conversationId} || ${botId}`;
   const auth = await sha256(authString);
